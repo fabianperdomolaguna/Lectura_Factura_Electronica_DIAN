@@ -1,12 +1,14 @@
 [project]
 name = "lectura-factura-electronica"
 version = "0.1.0"
-description = "Add your description here"
+description = "Aplicación de consola para leer facturas electrónicas DIAN (XML/ZIP) y exportarlas a Excel"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "defusedxml>=0.7.1",
     "openpyxl>=3.1.5",
     "pandas>=3.0.6",
+    "questionary>=2.1.1",
     "rich>=15.0.0",
 ]
 
@@ -14,3 +16,28 @@ dependencies = [
 dev = [
     "ruff>=0.17.0",
 ]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+# CPY001: Copyright.
+# COM812: El formatter ya gestiona las comas.
+# D203/D213: Ruff descarta igualmente.
+# D100: Los docstrings de módulo son opcionales en este proyecto.
+# TC001/TC003: Se prefieren imports normales a los bloques TYPE_CHECKING.
+ignore = ["CPY001", "COM812", "D203", "D213", "D100", "TC001", "TC003"]
+
+[tool.ruff.lint.per-file-ignores]
+# export_to_excel importa pandas de forma perezosa (arranque más rápido).
+"src/exporter.py" = ["PLC0415"]
+
+[tool.ruff.lint.flake8-quotes]
+# Alinea Q000 con format.quote-style = "single".
+inline-quotes = "single"
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
